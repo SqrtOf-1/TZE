@@ -10,6 +10,8 @@ add_executable(TZE
     Engine/Core/Main.cpp
     Engine/Core/Engine.cpp
     Engine/Core/Time.cpp
+    Engine/Math/Vector2.cpp
     Engine/Math/Vector3.cpp
+    Engine/Math/Matrix4.cpp
     Engine/Game/Player.cpp
 )

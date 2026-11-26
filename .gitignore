@@ -4,4 +4,7 @@ cmake-build-*/
 *.a
 *.so
 *.log
-.vscode/
+
+#VScode
+.vscode/*
+!.vscode/c_cpp_properties.json
