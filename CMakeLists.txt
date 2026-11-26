@@ -14,4 +14,6 @@ add_executable(TZE
     Engine/Math/Vector3.cpp
     Engine/Math/Matrix4.cpp
     Engine/Game/Player.cpp
+    Engine/Math/Vector4.cpp
+    Engine/Scene/Transform.cpp
 )

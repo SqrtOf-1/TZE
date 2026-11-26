@@ -86,3 +86,49 @@ Matrix4 Matrix4::rotationZ(float angle)
 
     return result;
 }
+
+Matrix4 Matrix4::rotationX(float angle)
+{
+    Matrix4 result = Matrix4::identity();
+
+    result.elements[5] = std::cos(angle);
+    result.elements[6] = -std::sin(angle);
+    result.elements[9] = std::sin(angle);
+    result.elements[10] = std::cos(angle);
+
+    return result;
+}
+
+Matrix4 Matrix4::rotationY(float angle)
+{
+    Matrix4 result = Matrix4::identity();
+
+    result.elements[0] = std::cos(angle);
+    result.elements[2] = std::sin(angle);
+    result.elements[8] = -std::sin(angle);
+    result.elements[10] = std::cos(angle);
+
+    return result;
+}
+
+Matrix4 Matrix4::scale(const Vector3& factors)
+{
+    Matrix4 result = Matrix4::identity();
+
+    result.elements[0] = factors.x;
+    result.elements[5] = factors.y;
+    result.elements[10] = factors.z;
+
+    return result;
+}
+
+Vector4 Matrix4::operator*(const Vector4& vector) const
+{
+    Vector4 result;
+    result.x = elements[0] * vector.x + elements[1] * vector.y + elements[2] * vector.z + elements[3] * vector.w;
+    result.y = elements[4] * vector.x + elements[5] * vector.y + elements[6] * vector.z + elements[7] * vector.w;
+    result.z = elements[8] * vector.x + elements[9] * vector.y + elements[10] * vector.z + elements[11] * vector.w;
+    result.w = elements[12] * vector.x + elements[13] * vector.y + elements[14] * vector.z + elements[15] * vector.w;
+//Pas très élégant mais les autres solution était plus longues et utilisait des tableaux temporaires et des boucles imbriquées
+    return result;
+}

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../Math/Matrix4.hpp"
 #include <numbers>
+#include "../Scene/Transform.hpp"
 
 int main()
 {
@@ -11,8 +12,13 @@ int main()
     engine.run();
     engine.shutdown();
 
-    Matrix4 rotation = Matrix4::rotationZ(std::numbers::pi_v<float> / 2.0f);
-    rotation.print();
+    Transform transform;
+    transform.position = Vector3(10,0,0);
+    transform.rotation = Vector3(0,0,0);
+    transform.scale = Vector3(1,1,1);
+
+    Matrix4 test = transform.getModelMatrix();
+    test.print();
 
     return 0;
 }
