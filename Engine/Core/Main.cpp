@@ -1,122 +1,63 @@
-
 #include <iostream>
-#include <cmath>
-#include "../Math/Vector3.hpp"
+#include "../Math/Vector4.hpp"
 
-bool nearlyEqual(float a, float b, float epsilon = 0.0001f)
+void printVector(const Vector4& v)
 {
-    return std::abs(a - b) < epsilon;
-}
-
-bool checkVector(const Vector3& v, float x, float y, float z)
-{
-    return nearlyEqual(v.x, x)
-        && nearlyEqual(v.y, y)
-        && nearlyEqual(v.z, z);
-}
-
-void printResult(const char* testName, bool success)
-{
-    std::cout << (success ? "[PASS] " : "[FAIL] ")
-              << testName << '\n';
+    std::cout << "("
+              << v.x << ", "
+              << v.y << ", "
+              << v.z << ", "
+              << v.w << ")\n";
 }
 
 int main()
 {
-    std::cout << "Vector3 Tests\n\n";
+    std::cout << "Vector4 tests\n\n";
 
-    std::cout << "Constructors\n";
+    Vector4 zero;
+    Vector4 a(1.0f, 2.0f, 3.0f, 1.0f);
+    Vector4 b(4.0f, 5.0f, 6.0f, 1.0f);
 
-    Vector3 zero;
-    printResult("Default constructor",
-        checkVector(zero, 0.0f, 0.0f, 0.0f));
+    std::cout << "default constructor\n";
+    printVector(zero);
 
-    Vector3 a(1.0f, 2.0f, 3.0f);
-    printResult("Parameterized constructor",
-        checkVector(a, 1.0f, 2.0f, 3.0f));
+    std::cout << "parameterized constructor\n";
+    printVector(a);
 
-    std::cout << "\nadditions/substractions\n";
+    std::cout << "Addition:\n";
+    printVector(a + b);
 
-    Vector3 b(4.0f, 5.0f, 6.0f);
+    std::cout << "subtraction:\n";
+    printVector(b - a);
 
-    printResult("Addition",
-        checkVector(a + b, 5.0f, 7.0f, 9.0f));
+    std::cout << "scalar multiplication:\n";
+    printVector(a * 2.0f);
 
-    printResult("Subtraction",
-        checkVector(b - a, 3.0f, 3.0f, 3.0f));
+    std::cout << "scalar division:\n";
+    printVector(b / 2.0f);
 
-    // 3. Multiplication et division
-    std::cout << "\n scalar\n";
+    std::cout << "dot product:\n";
+    std::cout << a.dot(b) << "\n";
 
-    printResult("Scalar *",
-        checkVector(a * 2.0f, 2.0f, 4.0f, 6.0f));
+    std::cout << "length:\n";
+    Vector4 c(1.0f, 2.0f, 2.0f, 0.0f);
+    std::cout << c.length() << "\n";
 
-    printResult("Scalar /",
-        checkVector(b / 2.0f, 2.0f, 2.5f, 3.0f));
+    std::cout << "normalization:\n";
+    Vector4 d(0.0f, 3.0f, 0.0f, 0.0f);
+    printVector(d.normalized());
 
-    // 4. Opérateurs composés
-    std::cout << "\nthe weird things that are kinda cool\n";
+    std::cout << "zero vector normalization:\n";
+    printVector(zero.normalized());
 
-    Vector3 c(1.0f, 2.0f, 3.0f);
+    std::cout << "point + Direction:\n";
+    Vector4 point(1.0f, 2.0f, 3.0f, 1.0f);
+    Vector4 direction(2.0f, 0.0f, 1.0f, 0.0f);
+    printVector(point + direction);
 
-    c += Vector3(1.0f, 1.0f, 1.0f);
-    printResult("operator+=",
-        checkVector(c, 2.0f, 3.0f, 4.0f));
-
-    c -= Vector3(1.0f, 1.0f, 1.0f);
-    printResult("operator-=",
-        checkVector(c, 1.0f, 2.0f, 3.0f));
-
-    c *= 2.0f;
-    printResult("operator*=",
-        checkVector(c, 2.0f, 4.0f, 6.0f));
-
-    // 5. Produit scalaire et vectoriel
-    std::cout << "\nscalar product and vectorial product (idk how its called in english)\n";
-
-    Vector3 xAxis(1.0f, 0.0f, 0.0f);
-    Vector3 yAxis(0.0f, 1.0f, 0.0f);
-    Vector3 zAxis(0.0f, 0.0f, 1.0f);
-
-    printResult("perpendicular vectors",
-        nearlyEqual(xAxis.dot(yAxis), 0.0f));
-
-    printResult("parallel vectors",
-        nearlyEqual(xAxis.dot(xAxis), 1.0f));
-
-    printResult("X x Y = Z",
-        checkVector(xAxis.cross(yAxis), 0.0f, 0.0f, 1.0f));
-
-    printResult("Y x X = -Z",
-        checkVector(yAxis.cross(xAxis), 0.0f, 0.0f, -1.0f));
-
-    std::cout << "\nlength and normalization\n";
-
-    Vector3 d(3.0f, 4.0f, 0.0f);
-
-    printResult("Length",
-        nearlyEqual(d.length(), 5.0f));
-
-    printResult("Normalized vector",
-        checkVector(d.normalized(), 0.6f, 0.8f, 0.0f));
-
-    printResult(" length 1",
-        nearlyEqual(d.normalized().length(), 1.0f));
-
-    std::cout << "\nextreme cases \n";
-
-    Vector3 nullVector(0.0f, 0.0f, 0.0f);
-
-    printResult("Zero vector length",
-        nearlyEqual(nullVector.length(), 0.0f));
-
-    printResult("Zero vector normalization",
-        checkVector(nullVector.normalized(), 0.0f, 0.0f, 0.0f));
-
-    printResult("parallel vectors vectorial product",
-        checkVector(xAxis.cross(xAxis), 0.0f, 0.0f, 0.0f));
-
-    std::cout << "\nyipeeeeeee\n";
+    std::cout << "point - point:\n";
+    Vector4 point2(4.0f, 5.0f, 6.0f, 1.0f);
+    printVector(point2 - point);
 
     return 0;
 }

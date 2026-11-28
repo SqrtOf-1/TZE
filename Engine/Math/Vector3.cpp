@@ -1,5 +1,6 @@
 #include "Vector3.hpp"
 #include <cmath>
+#include <cassert>
 
 Vector3::Vector3()
 {
@@ -112,6 +113,7 @@ Vector3& Vector3::operator*=(float scalar)
 
 Vector3 Vector3::operator/(float scalar) const
 {
+    assert(scalar != 0.0f);
     return Vector3(
         x * scalar,
         y * scalar,
